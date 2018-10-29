@@ -8,6 +8,9 @@ var PORT = 6969;
 // The sock object the callback function receives UNIQUE for each connection
 net.createServer(function(sock) {
     
+    
+   sock.setKeepAlive(true);
+   
     // We have a connection - a socket object is assigned to the connection automatically
     console.log('CONNECTED: ' + sock.remoteAddress +':'+ sock.remotePort);
     
@@ -16,7 +19,7 @@ net.createServer(function(sock) {
         
         console.log('DATA ' + sock.remoteAddress + ': ' + data);
         // Write the data back to the socket, the client will receive it as data from the server
-        sock.write('TCP server says "' + data + '"');
+        sock.write(data );
         
     });
     
@@ -24,7 +27,12 @@ net.createServer(function(sock) {
     sock.on('close', function(data) {
         console.log('CLOSED: ' + sock.remoteAddress +' '+ sock.remotePort);
     });
+
+
+   
     
 }).listen(PORT, HOST);
+
+
 
 console.log('Server listening on ' + HOST +':'+ PORT);
